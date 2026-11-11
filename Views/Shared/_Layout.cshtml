@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - English Vocabulary Learning Website</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="bg-dark text-light">
+    <!-- Thanh Menu điều hướng -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black mb-4 shadow border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-success" href="@Url.Action("Index", "Learn")">📚 English App</a>
+
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Learn")">Trang chủ</a>
+                    </li>
+                    <!-- ĐÃ THÊM MỤC TRẮC NGHIỆM Ở ĐÂY -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Quiz")">Kiểm tra trắc nghiệm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Admin")">Quản trị (Admin)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("About", "Home")">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Contact", "Home")">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("History", "Quiz")">Lịch sử làm bài</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto align-items-center">
+                    @if (Session["Username"] != null)
+                    {
+                        <li class="nav-item d-flex align-items-center me-3">
+                            <span class="text-light">
+                                Xin chào, <strong class="text-success">@Session["Username"]</strong>
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Logout", "Account")" class="btn btn-outline-danger btn-sm rounded-pill px-3 shadow-sm">Đăng xuất</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item me-2">
+                            <a href="@Url.Action("Login", "Account")" class="btn btn-outline-light btn-sm rounded-pill px-3">Đăng nhập</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Register", "Account")" class="btn btn-success btn-sm rounded-pill px-3">Đăng ký</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Nội dung chính -->
+    <div class="container body-content">
+        @RenderBody()
+        <hr class="border-secondary" />
+        <footer>
+            <p class="text-muted text-center">&copy; @DateTime.Now.Year - English Vocabulary Learning Website</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

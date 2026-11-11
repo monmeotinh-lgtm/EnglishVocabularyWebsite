@@ -1,0 +1,95 @@
+﻿@model IEnumerable<English_Vocabulary_Learning_Website.Models.Topic>
+@{
+    ViewBag.Title = "Quản lý Chủ đề - Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4 text-light">
+    <!-- Tiêu đề trang quản lý và Thanh tìm kiếm LINQ -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <h2 class="fw-bold text-light m-0">Quản lý Chủ đề học tập</h2>
+
+        <!-- Form tìm kiếm sử dụng LINQ -->
+        <form method="get" action="@Url.Action("Index", "Admin")" class="d-flex">
+            <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control bg-dark text-light border-secondary me-2 rounded-pill px-3" placeholder="Tìm kiếm chủ đề..." style="width: 250px;" />
+            <button type="submit" class="btn btn-outline-success rounded-pill px-3">Tìm kiếm</button>
+        </form>
+
+        <a href="@Url.Action("CreateTopic", "Admin")" class="btn btn-success px-4 rounded-pill shadow-sm">
+            <i class="bi bi-plus-lg"></i> + Thêm chủ đề mới
+        </a>
+    </div>
+
+    <!-- Thông báo lỗi (nếu có điều kiện biên khi xóa) -->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Bảng danh sách phong cách Dark Mode -->
+    <div class="card bg-black border border-secondary rounded-4 shadow-lg overflow-hidden">
+        <div class="table-responsive m-0">
+            <table class="table table-dark table-hover align-middle mb-0">
+                <thead style="background-color: #161b22; color: #8b949e;">
+                    <tr>
+                        <th class="py-3 px-4">Tên chủ đề</th>
+                        <th class="py-3">Mô tả</th>
+                        <th class="py-3 text-center">Hình ảnh</th>
+                        <th class="py-3 text-center" style="width: 350px;">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="px-4 fw-bold text-success">@item.Name</td>
+                                <td class="text-secondary">@item.Description</td>
+                                <td class="text-center">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@item.ImageUrl" alt="Img" class="rounded-2 border border-secondary shadow-sm" style="height: 45px; width: 65px; object-fit: cover;" />
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">Không có</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <!-- Nút Từ vựng -->
+                                    <a href="@Url.Action("VocabularyList", "Admin", new { topicId = item.Id })" class="btn btn-info btn-sm px-2 rounded-pill fw-semibold me-1 text-white">Từ vựng</a>
+
+                                    <!-- Nút Trắc nghiệm (Đã thêm vào đúng vị trí trong bảng) -->
+                                    <a href="@Url.Action("QuizList", "Admin", new { topicId = item.Id })" class="btn btn-warning btn-sm px-2 rounded-pill fw-semibold me-1 text-dark">Trắc nghiệm</a>
+
+                                    <!-- Nút Sửa -->
+                                    <a href="@Url.Action("EditTopic", "Admin", new { id = item.Id })" class="btn btn-secondary btn-sm px-2 rounded-pill fw-semibold me-1 text-light">Sửa</a>
+
+                                    <!-- Nút Xóa -->
+                                    <a href="@Url.Action("DeleteTopic", "Admin", new { id = item.Id })" class="btn btn-danger btn-sm px-2 rounded-pill fw-semibold" onclick="return confirm('Bạn có chắc muốn xóa chủ đề này không?');">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-secondary py-4">Không tìm thấy chủ đề nào phù hợp.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Nút quay về -->
+    <div class="mt-4">
+        <a href="@Url.Action("Index", "Learn")" class="btn btn-outline-secondary px-4 rounded-pill">
+            &larr; Về trang học tập
+        </a>
+    </div>
+</div>

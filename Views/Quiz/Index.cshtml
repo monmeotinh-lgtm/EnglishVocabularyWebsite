@@ -1,0 +1,61 @@
+﻿@model IEnumerable<English_Vocabulary_Learning_Website.Models.Quiz>
+
+@{
+    ViewBag.Title = "Bài kiểm tra trắc nghiệm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-success fw-bold mb-4 text-center">BÀI KIỂM TRA TRẮC NGHIỆM</h2>
+
+            <form action="@Url.Action("Submit", "Quiz", new { topicId = ViewBag.TopicId })" method="post">
+                @{ int index = 1; }
+                @foreach (var question in Model)
+                {
+                    <div class="card mb-4 bg-black text-light border-secondary shadow-sm rounded-4 p-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-warning mb-3">Câu @(index++): @question.Question</h5>
+
+                            <div class="mt-2">
+                                <!-- Đáp án A -->
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="question_@question.Id" id="optA_@question.Id" value="A" required>
+                                    <label class="form-check-label text-secondary" for="optA_@question.Id">
+                                        A. @question.OptionA
+                                    </label>
+                                </div>
+                                <!-- Đáp án B -->
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="question_@question.Id" id="optB_@question.Id" value="B">
+                                    <label class="form-check-label text-secondary" for="optB_@question.Id">
+                                        B. @question.OptionB
+                                    </label>
+                                </div>
+                                <!-- Đáp án C -->
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="question_@question.Id" id="optC_@question.Id" value="C">
+                                    <label class="form-check-label text-secondary" for="optC_@question.Id">
+                                        C. @question.OptionC
+                                    </label>
+                                </div>
+                                <!-- Đáp án D -->
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="question_@question.Id" id="optD_@question.Id" value="D">
+                                    <label class="form-check-label text-secondary" for="optD_@question.Id">
+                                        D. @question.OptionD
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success btn-lg px-5 rounded-pill shadow">Nộp bài</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

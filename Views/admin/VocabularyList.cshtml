@@ -1,0 +1,60 @@
+﻿@model IEnumerable<English_Vocabulary_Learning_Website.Models.Vocabulary>
+
+@{
+    ViewBag.Title = "Quản lý Từ vựng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4 text-light">
+    <!-- Tiêu đề và Nút thao tác -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-light m-0">Từ vựng thuộc chủ đề: <span class="text-success">@ViewBag.TopicName</span></h2>
+
+        <div>
+            <!-- Nút Thêm từ vựng mới -->
+            <a href="@Url.Action("AddVocabulary", "Admin", new { topicId = ViewBag.TopicId })" class="btn btn-success px-4 rounded-pill shadow-sm me-2">
+                <i class="bi bi-plus-lg"></i> + Thêm từ vựng mới
+            </a>
+            <!-- Nút quay lại -->
+            <a href="@Url.Action("Index", "Admin")" class="btn btn-outline-secondary rounded-pill px-4">&larr; Quay lại danh sách chủ đề</a>
+        </div>
+    </div>
+
+    <!-- Bảng danh sách từ vựng -->
+    <div class="card bg-black border border-secondary rounded-4 shadow-lg overflow-hidden p-4">
+        <table class="table table-dark table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Từ vựng</th>
+                    <th>Phiên âm</th>
+                    <th>Ý nghĩa</th>
+                    <th>Ví dụ</th>
+                    <th class="text-center" style="width: 100px;">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var v in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold text-warning">@v.Word</td>
+                            <td class="text-secondary">@v.Pronunciation</td>
+                            <td>@v.Meaning</td>
+                            <td class="text-muted">@v.Example</td>
+                            <td class="text-center">
+                                <a href="@Url.Action("DeleteVocabulary", "Admin", new { id = v.Id })" class="btn btn-danger btn-sm px-2 rounded-pill fw-semibold" onclick="return confirm('Bạn có chắc muốn xóa từ này không?');">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-secondary py-4">Chưa có từ vựng nào trong chủ đề này.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

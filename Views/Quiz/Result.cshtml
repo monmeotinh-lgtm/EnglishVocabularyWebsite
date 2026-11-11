@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Kết quả bài làm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5 text-center">
+    <div class="card bg-black text-light border-secondary p-5 mx-auto" style="max-width: 600px;">
+        <h1 class="text-success fw-bold mb-4">Hoàn thành!</h1>
+        <h4>Điểm số của bạn:</h4>
+        <h2 class="display-4 text-warning fw-bold my-3">
+            @ViewBag.Score / @ViewBag.Total
+        </h2>
+        <p class="text-secondary mb-5">câu trả lời chính xác.</p>
+
+        <div>
+            <a href="@Url.Action("Index", "Quiz")" class="btn btn-outline-success mx-2">Làm lại bài</a>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary mx-2">Về trang chủ</a>
+        </div>
+    </div>
+</div>
+

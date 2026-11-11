@@ -1,0 +1,166 @@
+﻿@model IEnumerable<English_Vocabulary_Learning_Website.Models.Vocabulary>
+
+@{
+    ViewBag.Title = "Học Flashcard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5 text-center">
+    <h2 class="fw-bold mb-2">Học Từ Vựng Theo Thẻ (Flashcard)</h2>
+
+    @if (ViewBag.Topic != null)
+        {
+        <h4 class="text-muted mb-4">Chủ đề: @ViewBag.Topic.Name</h4>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <!-- Khung Flashcard 3D -->
+        <div class="flashcard-wrapper my-4">
+            <div class="flashcard-inner" id="flashcard" onclick="toggleFlip()">
+                <!-- Mặt trước (Từ vựng + Phiên âm + Phát âm) -->
+                <div class="card-face card-front shadow-sm">
+                    <span class="badge bg-info text-dark mb-2">Mặt trước</span>
+                    <h2 id="wordText" class="text-primary display-4 fw-bold mb-1"></h2>
+                    <p id="phoneticText" class="text-muted fs-5 mb-3"></p>
+                    <button type="button" class="btn btn-outline-primary rounded-pill px-3" onclick="event.stopPropagation(); playAudio()">
+                        🔊 Nghe phát âm
+                    </button>
+                </div>
+
+                <!-- Mặt sau (Nghĩa + Ví dụ) -->
+                <div class="card-face card-back shadow-sm">
+                    <span class="badge bg-secondary mb-2">Mặt sau</span>
+                    <h3 id="meaningText" class="text-success fw-bold mb-2"></h3>
+                    <p id="exampleText" class="text-secondary fst-italic px-3"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thanh điều hướng chuyển từ -->
+        <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
+            <button class="btn btn-outline-dark px-4 py-2" onclick="prevCard()">⬅ Từ trước</button>
+            <span class="fw-bold fs-5" id="cardProgress">1 / 1</span>
+            <button class="btn btn-primary px-4 py-2" onclick="nextCard()">Từ tiếp ➡</button>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning mt-4">Chủ đề này hiện chưa có từ vựng nào trong cơ sở dữ liệu.</div>
+    }
+
+    <div class="mt-4">
+        <a href="@Url.Action("Index", "Learn")" class="btn btn-secondary">Quay lại danh sách chủ đề</a>
+    </div>
+</div>
+
+<!-- CSS cho hiệu ứng lật 3D -->
+<style>
+    .flashcard-wrapper {
+        perspective: 1000px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .flashcard-inner {
+        width: 420px;
+        height: 260px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        cursor: pointer;
+    }
+
+        .flashcard-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+    .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        border: 2px solid #444;
+        background-color: #1a1a1a;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .card-back {
+        background-color: #212529;
+        border-color: #555;
+        transform: rotateY(180deg);
+    }
+</style>
+
+<!-- JavaScript xử lý Lật thẻ, Chuyển từ & Phát âm -->
+@section Scripts {
+    <script>
+        // Đưa dữ liệu từ Model C# sang mảng JSON an toàn
+        const vocabList = @Html.Raw(Json.Encode(Model.Select(v => new {
+            word = v.Word,
+            phonetic = v.Pronunciation ?? "",
+            meaning = v.Meaning,
+            example = v.Example ?? ""
+        })));
+
+        let currentIndex = 0;
+
+        // 1. Hàm lật thẻ
+        function toggleFlip() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        // 2. Hàm phát âm sử dụng Web Speech API có sẵn của trình duyệt
+        function playAudio() {
+            if (!vocabList || vocabList.length === 0) return;
+            const word = vocabList[currentIndex].word;
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Trình duyệt của bạn không hỗ trợ phát âm.");
+            }
+        }
+
+        // 3. Cập nhật nội dung hiển thị lên thẻ
+        function updateCard() {
+            if (!vocabList || vocabList.length === 0) return;
+            const item = vocabList[currentIndex];
+            document.getElementById('wordText').innerText = item.word;
+            document.getElementById('phoneticText').innerText = item.phonetic;
+            document.getElementById('meaningText').innerText = item.meaning;
+            document.getElementById('exampleText').innerText = `"${item.example}"`;
+            document.getElementById('cardProgress').innerText = `${currentIndex + 1} / ${vocabList.length}`;
+
+            // Đưa thẻ về mặt trước khi chuyển từ
+            document.getElementById('flashcard').classList.remove('flipped');
+        }
+
+        // 4. Chuyển sang từ tiếp theo
+        function nextCard() {
+            if (!vocabList || vocabList.length === 0) return;
+            currentIndex = (currentIndex + 1) % vocabList.length;
+            updateCard();
+        }
+
+        // 5. Quay lại từ trước
+        function prevCard() {
+            if (!vocabList || vocabList.length === 0) return;
+            currentIndex = (currentIndex - 1 + vocabList.length) % vocabList.length;
+            updateCard();
+        }
+
+        // Khởi tạo hiển thị từ đầu tiên khi tải trang
+        if (vocabList && vocabList.length > 0) {
+            updateCard();
+        }
+    </script>
+}

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<English_Vocabulary_Learning_Website.Models.Quiz>
+@{
+    ViewBag.Title = "Bài kiểm tra trắc nghiệm";
+    var topic = ViewBag.Topic as English_Vocabulary_Learning_Website.Models.Topic;
+    int index = 0;
+}
+
+<div class="container py-4 text-light" style="max-width: 900px;">
+    <!-- Tiêu đề chủ đề -->
+    <h2 class="fw-bold mb-3">Bài kiểm tra: <span class="text-success">@(topic != null ? topic.Name : "Technology")</span></h2>
+    <hr class="border-secondary" />
+
+    @using (Html.BeginForm("SubmitQuiz", "Learn", FormMethod.Post))
+    {
+        @Html.Hidden("TopicId", topic != null ? topic.Id : 1)
+
+        <!-- CÂU HỎI 1 -->
+        <div class="card bg-black border border-secondary rounded-4 p-3 mb-4 text-light shadow-lg">
+            <div class="card-body">
+                <h5 class="fw-bold text-light mb-3">Câu 1: Từ 'Software' trong tiếng Việt có nghĩa là gì?</h5>
+                <input type="hidden" name="Answers[0].QuizId" value="1" />
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[0].SelectedAnswer" value="A" id="q1_A">
+                    <label class="form-check-label text-secondary" for="q1_A">A. Phần cứng</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[0].SelectedAnswer" value="B" id="q1_B">
+                    <label class="form-check-label text-secondary" for="q1_B">B. Phần mềm</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[0].SelectedAnswer" value="C" id="q1_C">
+                    <label class="form-check-label text-secondary" for="q1_C">C. Mạng máy tính</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[0].SelectedAnswer" value="D" id="q1_D">
+                    <label class="form-check-label text-secondary" for="q1_D">D. Dữ liệu</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="card bg-black border border-secondary rounded-4 p-3 mb-4 text-light shadow-lg">
+            <div class="card-body">
+                <h5 class="fw-bold text-light mb-3">Câu 2: 'Database' được dịch sang tiếng Việt là gì?</h5>
+                <input type="hidden" name="Answers[1].QuizId" value="2" />
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[1].SelectedAnswer" value="A" id="q2_A">
+                    <label class="form-check-label text-secondary" for="q2_A">A. Cơ sở dữ liệu</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[1].SelectedAnswer" value="B" id="q2_B">
+                    <label class="form-check-label text-secondary" for="q2_B">B. Máy chủ</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[1].SelectedAnswer" value="C" id="q2_C">
+                    <label class="form-check-label text-secondary" for="q2_C">C. Trình duyệt</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[1].SelectedAnswer" value="D" id="q2_D">
+                    <label class="form-check-label text-secondary" for="q2_D">D. Tập tin</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="card bg-black border border-secondary rounded-4 p-3 mb-4 text-light shadow-lg">
+            <div class="card-body">
+                <h5 class="fw-bold text-light mb-3">Câu 3: Thiết bị nào dưới đây được coi là bộ não của máy tính?</h5>
+                <input type="hidden" name="Answers[2].QuizId" value="3" />
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[2].SelectedAnswer" value="A" id="q3_A">
+                    <label class="form-check-label text-secondary" for="q3_A">A. Monitor (Màn hình)</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[2].SelectedAnswer" value="B" id="q3_B">
+                    <label class="form-check-label text-secondary" for="q3_B">B. CPU (Bộ vi xử lý)</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[2].SelectedAnswer" value="C" id="q3_C">
+                    <label class="form-check-label text-secondary" for="q3_C">C. Keyboard (Bàn phím)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[2].SelectedAnswer" value="D" id="q3_D">
+                    <label class="form-check-label text-secondary" for="q3_D">D. Mouse (Chuột)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 4 -->
+        <div class="card bg-black border border-secondary rounded-4 p-3 mb-4 text-light shadow-lg">
+            <div class="card-body">
+                <h5 class="fw-bold text-light mb-3">Câu 4: Hệ điều hành nào dưới đây phổ biến nhất trên máy tính cá nhân?</h5>
+                <input type="hidden" name="Answers[3].QuizId" value="4" />
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[3].SelectedAnswer" value="A" id="q4_A">
+                    <label class="form-check-label text-secondary" for="q4_A">A. Android</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[3].SelectedAnswer" value="B" id="q4_B">
+                    <label class="form-check-label text-secondary" for="q4_B">B. iOS</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[3].SelectedAnswer" value="C" id="q4_C">
+                    <label class="form-check-label text-secondary" for="q4_C">C. Windows</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input bg-dark border-secondary" type="radio" name="Answers[3].SelectedAnswer" value="D" id="q4_D">
+                    <label class="form-check-label text-secondary" for="q4_D">D. Linux</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nút nộp bài -->
+        <div class="text-start mb-5">
+            <button type="submit" class="btn btn-success px-5 py-2 rounded-pill fw-bold shadow-sm">Nộp bài</button>
+        </div>
+    }
+</div>

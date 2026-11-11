@@ -1,0 +1,53 @@
+﻿@model IEnumerable<English_Vocabulary_Learning_Website.Models.Topic>
+@{
+    ViewBag.Title = "Trang chủ - Học từ vựng tiếng Anh";
+    var userResults = ViewBag.UserResults as List<English_Vocabulary_Learning_Website.Models.Result> ?? new List<English_Vocabulary_Learning_Website.Models.Result>();
+}
+
+<div class="container mt-4">
+    <div class="p-4 mb-4 bg-light rounded-3">
+        <h1 class="display-5 fw-bold">English Vocabulary Learning</h1>
+        <p class="fs-4">Học từ vựng hiệu quả mỗi ngày qua Flashcard và trắc nghiệm tương tác.</p>
+    </div>
+
+    <h2 class="mb-3">Danh sách Chủ đề học tập</h2>
+    <div class="row">
+        @foreach (var topic in Model)
+        {
+            var latestResult = userResults.Where(r => r.TopicId == topic.Id).OrderByDescending(r => r.CompletedAt).FirstOrDefault();
+
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    @if (!string.IsNullOrEmpty(topic.ImageUrl))
+                    {
+                        <img src="@topic.ImageUrl" class="card-img-top" alt="@topic.Name" style="height: 180px; object-fit: cover;">
+                    }
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title">@topic.Name</h4>
+                        <p class="card-text text-muted">@topic.Description</p>
+
+                        <div class="mt-auto">
+                            @if (latestResult != null)
+                            {
+                                <div class="alert alert-success py-1 px-2 mb-2 text-center" style="font-size: 14px;">
+                                    Đã làm: <b>@latestResult.Score / @latestResult.TotalQuestions câu</b>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning py-1 px-2 mb-2 text-center" style="font-size: 14px;">
+                                    Chưa học
+                                </div>
+                            }
+
+                            <div class="d-flex justify-content-between mt-2">
+                                <a href="@Url.Action("Flashcard", "Learn", new { topicId = topic.Id })" class="btn btn-primary btn-sm">Học Flashcard</a>
+                                <a href="@Url.Action("TakeQuiz", "Learn", new { topicId = topic.Id })" class="btn btn-success btn-sm">Làm Quiz</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

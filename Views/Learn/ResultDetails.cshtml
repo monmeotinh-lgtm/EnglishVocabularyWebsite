@@ -1,0 +1,23 @@
+﻿
+@model English_Vocabulary_Learning_Website.Models.Result
+@{ 
+    ViewBag.Title = "Kết quả bài làm";
+}
+
+<div class="container mt-5 text-center">
+    <div class="card shadow p-4 mx-auto" style="max-width: 500px;">
+        <h2 class="text-success mb-3">Kết quả kiểm tra</h2>
+        <hr />
+        <h4>Chủ đề: @Model.Topic.Name</h4>
+        <div class="display-3 fw-bold text-primary my-4">
+            @Model.Score / @Model.TotalQuestions
+        </div>
+        <p class="text-muted">Thời gian hoàn thành: @Model.CompletedAt.ToString("dd/MM/yyyy HH:mm:ss")</p>
+
+        <div class="mt-4">
+            <a href="@Url.Action("Index", "Learn")" class="btn btn-primary me-2">Về trang chủ</a>
+            <a href="@Url.Action("TakeQuiz", "Learn", new { topicId = Model.TopicId })" class="btn btn-outline-secondary">Làm lại bài Quiz</a>
+        </div>
+    </div>
+</div>
+

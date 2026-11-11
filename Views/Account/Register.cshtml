@@ -1,0 +1,47 @@
+﻿@model English_Vocabulary_Learning_Website.Models.UserAccount
+
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 75vh;">
+    <div class="card shadow-lg border-0 rounded-4 p-4 p-md-5" style="width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold text-primary">ĐĂNG KÝ TÀI KHOẢN</h3>
+            <p class="text-muted small">Tạo tài khoản mới để bắt đầu học từ vựng</p>
+        </div>
+
+        @if (ViewBag.error != null)
+        {
+            <div class="alert alert-danger py-2 text-center rounded-3">@ViewBag.error</div>
+        }
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Tên đăng nhập</label>
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control py-2 rounded-3", @placeholder = "Chọn tên đăng nhập...", @required = "required" })
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control py-2 rounded-3", @type = "email", @placeholder = "Nhập địa chỉ email...", @required = "required" })
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Mật khẩu</label>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control py-2 rounded-3", @placeholder = "Tạo mật khẩu bảo mật...", @required = "required" })
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 rounded-3 fw-bold shadow-sm">Đăng Ký</button>
+        }
+
+        <div class="text-center mt-4">
+            <span class="text-muted small">Đã có tài khoản?</span>
+            <a href="@Url.Action("Login", "Account")" class="text-primary text-decoration-none fw-semibold">Đăng nhập ngay</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Liên hệ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="fw-bold text-success mb-3">Liên hệ với chúng tôi</h1>
+            <p class="text-muted lead mb-5">Bạn có thắc mắc hoặc cần góp ý về đồ án? Hãy gửi thông tin cho chúng tôi nhé!</p>
+        </div>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-5">
+            <div class="card bg-black text-light border border-secondary shadow-sm rounded-4 p-4 h-100">
+                <h4 class="text-success fw-bold mb-4">📍 Thông tin nhóm</h4>
+                <p class="mb-3"><strong>Trường:</strong> Đại học Ngoại ngữ - Tin học TP.HCM (HUFLIT)</p>
+                <p class="mb-3"><strong>Đồ án:</strong> Website học từ vựng tiếng Anh (ASP.NET MVC)</p>
+                <p class="mb-3"><strong>Email hỗ trợ:</strong> support@englishapp.local</p>
+                <p class="mb-0"><strong>Hotline:</strong> 0123 456 789</p>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card bg-black text-light border border-secondary shadow-sm rounded-4 p-4">
+                <h4 class="text-success fw-bold mb-4">💬 Gửi phản hồi</h4>
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Họ và tên</label>
+                        <input type="text" class="form-control bg-dark text-light border-secondary" placeholder="Nhập họ tên của bạn..." required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Email</label>
+                        <input type="email" class="form-control bg-dark text-light border-secondary" placeholder="Nhập email của bạn..." required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Nội dung</label>
+                        <textarea class="form-control bg-dark text-light border-secondary" rows="4" placeholder="Nhập nội dung cần trao đổi..." required></textarea>
+                    </div>
+                    <button type="button" class="btn btn-success w-100 fw-bold py-2" onclick="alert('Cảm ơn bạn đã phản hồi! Chúng tôi sẽ phản hồi sớm nhất.')">Gửi tin nhắn</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

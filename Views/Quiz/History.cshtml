@@ -1,0 +1,47 @@
+﻿@model IEnumerable<English_Vocabulary_Learning_Website.Models.Result>
+
+@{
+    ViewBag.Title = "Lịch sử làm bài trắc nghiệm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <h2 class="text-success fw-bold mb-4 text-center">LỊCH SỬ LÀM BÀI TRẮC NGHIỆM</h2>
+
+    <div class="card bg-black text-light border-secondary p-4 mx-auto" style="max-width: 800px;">
+        <table class="table table-dark table-striped text-center align-middle">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Chủ đề</th>
+                    <th>Điểm số</th>
+                    <th>Thời gian nộp</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 1; }
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>Chủ đề @item.TopicId</td>
+                            <td><span class="text-warning fw-bold">@item.Score</span> / @item.TotalQuestions</td>
+                            <td>@item.CompletedAt.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-muted py-3">Chưa có lịch sử làm bài nào được ghi nhận.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-center mt-3">
+            <a href="@Url.Action("Index", "Quiz")" class="btn btn-outline-success">Làm bài kiểm tra mới</a>
+        </div>
+    </div>
+</div>

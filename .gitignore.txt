@@ -1,0 +1,15 @@
+# Visual Studio / MSBuild build folders
+[Bb]in/
+[Oo]bj/
+[Pp]ackages/
+.vs/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Diagnostic files
+*.aps
+*.cache
